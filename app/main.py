@@ -17,6 +17,7 @@ from fastapi.responses import JSONResponse
 
 from app.config import settings
 from app.database import engine, Base
+from fastapi.responses import PlainTextResponse
 
 # ── Logging ───────────────────────────────────────────────────────────────────
 logger = logging.getLogger(__name__)
@@ -73,6 +74,10 @@ app.include_router(auth_router, prefix="/api")
 def health() -> JSONResponse:
     return JSONResponse({"status": "ok", "service": settings.APP_TITLE, "version": settings.APP_VERSION})
 
+
+@app.get("/kaithhealthcheck", include_in_schema=False)
+def kaith_healthcheck():
+    return PlainTextResponse("ok")
 
 @app.get("/", include_in_schema=False)
 def root() -> JSONResponse:
